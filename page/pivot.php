@@ -4,7 +4,7 @@ class page_pivot extends Page {
 		parent::init();
 
 		$form=$this->add('Form');
-		$form->addField('DatePicker','from_date')->set(date('Y-m-d'));
+		$form->addField('DatePicker','from_date')->set('01-10-2012');//->set(date('Y-m-d'));
 		$form->addField('DatePicker','to_date')->set(date('Y-m-d'));
 		if($this->api->auth->model->ref('acl_id')->get('Level') == 100)
 			$form->addField('dropdown','branch_id')->setEmptyText("Please, select")->setModel('Branch');
@@ -97,12 +97,7 @@ class page_pivot extends Page {
 			if($prd['is_renewable'])
 				$grid->addColumn('text',str_replace(" ", "_", $prd['name'])."_Renew");
 		}
-
-		// $grid->add('misc/Export');
-		// $this->add('Text')->set($str);
-
 		$grid->setSource($result);
-		$grid->addTotals();
 
 		if($form->isSubmitted()){
 			$grid->js()->reload(array(
@@ -112,6 +107,36 @@ class page_pivot extends Page {
 							'member_id'=>$form->get('member_id'),
 							"filter"=>true
 							))->execute();
+		}
+
+
+		$chart_generator=$this->add('Button','ch_btn')->set('Generate Chart');
+		$cols=$this->add('Columns');
+		$lc=$cols->addColumn('span6');
+		$rc=$cols->addColumn('span6');
+
+		$ch=$rc->add('chart/Chart')
+		->setTitle("Sale Comparision Chart",null,"daily sales comparision")
+		->setChartType('bar')
+		->setXAxisTitle("Sales date")	
+		->setYAxisTitle("Sales")
+		->setXAxis(array("Jan","Feb","Mar","Apr","May","jun","july","Aug","sep","oct","nov","dec"))
+		->setLegendsOptions(array("layout"=>"vertical","align"=>"right","verticalAlign"=>"top"))
+		;
+
+		// $ch->options['plotOptions']['series']['stacking']='normal';
+		$ch->options['chart']['type']='column';
+
+		if($chart_generator->isClicked()){
+			$ch->js()->univ()->addSeries(
+										array(
+											"name"=>rand(1000,9999),
+											"data"=>array(
+														rand(1,100),rand(1,100),rand(1,100),rand(1,100),rand(1,100),rand(1,100)
+													)
+										)
+									)
+							->execute();
 		}
 
 	}

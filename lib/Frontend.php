@@ -19,7 +19,7 @@ class Frontend extends ApiFrontend {
                     ))
             ->setParent($this->pathfinder->base_location);
 
-        $xa=$this->addLocation('.',array(
+        $this->addLocation('.',array(
             "addons"=>'xavoc-addons'
             ));
 
