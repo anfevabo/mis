@@ -37,7 +37,7 @@ class Frontend extends ApiFrontend {
         $auth->setModel('Member','username','password');
 //            ->allow('demo','demo')
             // use check() and allowPage for white-list based auth checking
-            // $auth->check()
+            $auth->check();
             // ;
 
         // This method is executed for ALL the peages you are going to add,
@@ -49,17 +49,25 @@ class Frontend extends ApiFrontend {
 
         // If you are using a complex menu, you can re-define
         // it and place in a separate class
-        $this->add('Menu',null,'Menu')
-            ->addMenuItem('index','Admin Home')
-            ->addMenuItem('distributormanager','Distributor manager')
-            ->addMenuItem('pinmanager','Pin manager')
-            ->addMenuItem('closings_manager','Closing Manage')
+        $menu=$this->add('Menu',null,'Menu')
+            ->addMenuItem('index','Dashboard');
+
+        if($this->auth->model->ref('acl_id')->get('Level') == 100){
+            $menu->addMenuItem('branches','Branches');
+            $menu->addMenuItem('products','Products');
+            $menu->addMenuItem('members','Members');
+        }
+        elseif($this->auth->model->ref('acl_id')->get('Level')  >= 50){
+            $menu->addMenuItem('members','Members');
+        }
+            $menu->addMenuItem('sales_entry','Sales Entry');
+            $menu->addMenuItem('report','Report');
+            $menu->addMenuItem('pivot','Pivot');
+            $menu->addMenuItem('logout');
             
-            ->addMenuItem('logout')
-            ;
 
         $this->addLayout('UserMenu');
-        $this->add('H1',null,'logo')->set('Welcome Admin' );
+        $this->add('H1',null,'logo')->set('Welcome '. $this->auth->model['name']. " [ " . $this->auth->model['acl'] ." ] (" . $this->auth->model->ref('acl_id')->get('Level') .")" );
     }
     
     function layout_UserMenu(){

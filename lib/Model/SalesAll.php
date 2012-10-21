@@ -3,14 +3,14 @@ class Model_SalesAll extends Model_Table{
 	var $table="sales";
 	function init(){
 		parent::init();
-		$this->hasOne('branchAll','branch_id');
-		$this->hasOne('memberAll','member');
-		$this->hasOne('productAll','product_id');
-		$this->addField('Qty')->mandatory("Qty is Must");
-		$this->addField('Amount')->mandatory("Amount");
-		$this->addField('Renew')->mandatory("Renew");
-		$this->addField('sales_date')->mandatory("Date is Must");
-		$this->addField('Renew')->mandatory("Renew");
+		$this->hasOne('BranchAll','branch_id');
+		$this->hasOne('MembersAll','member_id');
+		$this->hasOne('ProductsAll','product_id')->mandatory("Product is must to select");
+		$this->addField('Qty')->defaultValue(0);
+		$this->addField('Amount')->defaultValue(0);
+		$this->addField('Renew')->defaultValue(0);
+		$this->addField('sales_date')->type('date')->defaultValue(date('Y-m-d'))->mandatory("Date is Must");
+		$this->addField('is_active')->type('boolean')->defaultValue(true);
 
 	}
 }

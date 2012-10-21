@@ -1,5 +1,5 @@
 <?php
-class Model_ProductAll extends Model_Table{
+class Model_ProductsAll extends Model_Table{
 	var $table="products";
 	function init(){
 		parent::init();

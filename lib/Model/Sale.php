@@ -1,5 +1,5 @@
-<?php 
-class Model_product extends Model_ProductAll{
+<?php
+class Model_Sale extends Model_SalesAll {
 	function init(){
 		parent::init();
 		$this->addCondition('is_active',true);
