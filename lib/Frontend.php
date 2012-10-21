@@ -65,6 +65,8 @@ class Frontend extends ApiFrontend {
             $menu->addMenuItem('pivot','Pivot');
             $menu->addMenuItem('logout');
             
+            
+        $this->add('View_License',null,'my_version');
 
         $this->addLayout('UserMenu');
         $this->add('H1',null,'logo')->set('Welcome '. $this->auth->model['name']. " [ " . $this->auth->model['acl'] ." ] (" . $this->auth->model->ref('acl_id')->get('Level') .")" );
