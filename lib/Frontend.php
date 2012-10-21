@@ -19,6 +19,10 @@ class Frontend extends ApiFrontend {
                     ))
             ->setParent($this->pathfinder->base_location);
 
+        $xa=$this->addLocation('.',array(
+            "addons"=>'xavoc-addons'
+            ));
+
         // A lot of the functionality in Agile Toolkit requires jUI
         $this->add('jUI');
 
